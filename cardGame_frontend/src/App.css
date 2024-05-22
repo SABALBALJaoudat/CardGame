@@ -16,6 +16,7 @@
 }
 
 .dropzone, .dropzone_spells {
+  position: absolute;
   width: 300px;
   height: 300px;
   border: 2px dashed #ccc;
@@ -23,4 +24,28 @@
   align-items: center;
   justify-content: center;
   background-color: #fafafa;
+  top: calc(50% - 150px);
+  left: calc(50% - 150px);
+}
+
+.drag-area {
+  opacity: 1;
+  background: red;
+  position: absolute;
+  width: 75%;
+  height: 75%;
+  border-radius: 30px;
+}
+
+.drag-element {
+  background: blue;
+  border-radius: 30px;
+  width: 150px;
+  height: 150px;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: grab;
+  z-index: 40;
 }
