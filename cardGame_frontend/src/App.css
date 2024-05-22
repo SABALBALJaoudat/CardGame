@@ -1,0 +1,26 @@
+.cards-container {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.draggable-item_monsters, .draggable-item_spells {
+  width: 100px;
+  height: 100px;
+  background-color: #f0f0f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: grab;
+  border: 1px solid #ccc;
+}
+
+.dropzone, .dropzone_spells {
+  width: 300px;
+  height: 300px;
+  border: 2px dashed #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #fafafa;
+}
