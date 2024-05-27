@@ -34,23 +34,35 @@ export default function App() {
   });
 
   const handleDragEnd = ({ active, over }: { active: any, over: any }) => {
+    console.log(active);
+    console.log(over);
     if (over) {
-      if (active.id.startsWith('draggable_monster')) {
-        if (containers_monsters.includes(over.id)) {
-          setParent((prev) => ({
-            ...prev,
-            [active.id]: over.id
-          }));
+
+      // Check if the parent have a child already
+      if (!Object.values(parent).includes(over.id)) {
+
+        // Check if the active element is a monster and the containers have the same id has containers_monsters
+        if (active.id.startsWith('draggable_monster')) {
+          if (containers_monsters.includes(over.id)) {
+            setParent((prev) => ({
+              ...prev,
+              [active.id]: over.id
+            }));
+          }
+        }
+
+        // Check if the active element is a spell and the containers have the same id has containers_spells
+        if (active.id.startsWith('draggable_spell')) {
+          if (containers_spells.includes(over.id)) {
+            setParent((prev) => ({
+              ...prev,
+              [active.id]: over.id
+            }));
+          }
         }
       }
-      if (active.id.startsWith('draggable_spell')) {
-        if (containers_spells.includes(over.id)) {
-          setParent((prev) => ({
-            ...prev,
-            [active.id]: over.id
-          }));
-        }
-      }
+
+    // If over is null, set the parent to null to replace it in the initial position
     } else {
       setParent((prev) => ({
         ...prev,
