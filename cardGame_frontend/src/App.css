@@ -49,3 +49,19 @@
   top: calc(50% - 150px);
   left: calc(50% - 150px);
 }
+
+.hand {
+  display: flex;
+  gap: 10px;
+  margin: 5px;
+
+}
+
+.main_content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  width: 100vw;
+  height: 100%;
+}
