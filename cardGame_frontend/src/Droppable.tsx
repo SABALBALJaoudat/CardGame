@@ -16,6 +16,11 @@ export function Droppable({ id, children }: DroppableProps) {
     padding: '20px',
     border: '1px solid black',
     margin: '10px',
+    width: '120px',
+    height: '200px',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
   };
 
   return (

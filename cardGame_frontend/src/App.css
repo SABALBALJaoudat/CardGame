@@ -1,55 +1,3 @@
-.cards-container {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 20px;
-}
-
-.draggable-item_monsters, .draggable-item_spells {
-  width: 100px;
-  height: 100px;
-  background-color: #f0f0f0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: grab;
-  border: 1px solid #ccc;
-}
-
-.dropzone, .dropzone_spells {
-  width: 200px;
-  height: 200px;
-  border: 2px dashed #ccc;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #fafafa;
-}
-
-.drag-area {
-  opacity: 1;
-  background: red;
-  position: absolute;
-  width: 75%;
-  height: 75%;
-  border-radius: 30px;
-}
-
-.drag-element {
-  position: absolute;
-  background: blue;
-  border-radius: 30px;
-  width: 150px;
-  height: 150px;
-  position: absolute;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: grab;
-  z-index: 40;
-  top: calc(50% - 150px);
-  left: calc(50% - 150px);
-}
-
 .hand {
   display: flex;
   gap: 10px;
@@ -64,4 +12,12 @@
   justify-content: space-between;
   width: 100vw;
   height: 100%;
+}
+
+.field{
+  .line{
+    display: flex;
+    gap: 10px;
+    margin: 5px;
+  }
 }

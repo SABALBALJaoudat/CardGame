@@ -6,7 +6,7 @@ import { Droppable } from './Droppable';
 
 export default function App() {
   const containers_monsters = ['zone_monsters_A', 'zone_monsters_B', 'zone_monsters_C'];
-  const containers_spells = ['zone_spell_A', 'zone_spell_B', 'zone_spell_C'];
+  const containers_spells = ['zone_spells_A', 'zone_spells_B', 'zone_spells_C'];
 
   const initialMonsters = [
     { id: 'draggable_monster_1', content: 'Monster 1' },
@@ -78,8 +78,8 @@ export default function App() {
             ) : null
           )}
         </div>
-        <div className="map_card">
-          <div>
+        <div className="field">
+          <div className="line">
             {containers_monsters.map((id) => (
               <Droppable key={id} id={id}>
                 {monsters.map((monster) =>
@@ -89,11 +89,11 @@ export default function App() {
                     </Draggable>
                   ) : null
                 )}
-                {monsters.every((monster) => parent[monster.id] !== id) && 'Drop here'}
+                {monsters.every((monster) => parent[monster.id] !== id) && 'Monster field'}
               </Droppable>
             ))}
           </div>
-          <div>
+          <div className="line">
             {containers_spells.map((id) => (
               <Droppable key={id} id={id}>
               {spells.map((spell) =>
@@ -103,8 +103,8 @@ export default function App() {
                   </Draggable>
                 ) : null
               )}
-              {spells.every((spell) => parent[spell.id] !== id) && 'Drop here'}
-            </Droppable>
+              {spells.every((spell) => parent[spell.id] !== id) && 'Spell field'}
+              </Droppable>
             ))}
           </div>
         </div>

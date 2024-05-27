@@ -1,6 +1,7 @@
 import React from 'react';
 import { useDraggable } from '@dnd-kit/core';
 import { CSS } from '@dnd-kit/utilities';
+import { color } from 'framer-motion';
 
 interface DraggableProps {
   id: string;
@@ -14,12 +15,17 @@ export function Draggable({ id, children }: DraggableProps) {
 
   const style = {
     transform: transform ? `translate3d(${transform.x}px, ${transform.y}px, 0)` : '',
-    border: isDragging ? '5px solid pink' : '0px',
+    outline: isDragging ? '5px solid pink' : '5px',
+    borderRadius: '10px',
+    padding: '10px',
+    backgroundColor: 'rebeccapurple',
+    color: 'white',
+    cursor: 'grab',
   };
 
   return (
-    <button ref={setNodeRef} style={style} {...listeners} {...attributes}>
+    <div ref={setNodeRef} style={style} {...listeners} {...attributes}>
       {children}
-    </button>
+    </div>
   );
 }
