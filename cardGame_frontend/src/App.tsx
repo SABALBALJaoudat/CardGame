@@ -6,36 +6,51 @@ import { Droppable } from './Droppable';
 
 export default function App() {
   const containers_monsters = ['zone_monsters_A', 'zone_monsters_B', 'zone_monsters_C'];
-  const containers_magictrap = ['zone_magictrap_A', 'zone_magictrap_B', 'zone_magictrap_C'];
+  const containers_spells = ['zone_spell_A', 'zone_spell_B', 'zone_spell_C'];
+
+  const initialMonsters = [
+    { id: 'draggable_monster_1', content: 'Monster 1' },
+    { id: 'draggable_monster_2', content: 'Monster 2' },
+    { id: 'draggable_monster_3', content: 'Monster 3' }
+  ];
+
+  const initialSpells = [
+    { id: 'draggable_spell_1', content: 'Spell 1' },
+    { id: 'draggable_spell_2', content: 'Spell 2' },
+    { id: 'draggable_spell_3', content: 'Spell 3' }
+  ];
+
+  const [monsters, setMonsters] = useState(initialMonsters);
+  const [spells, setSpells] = useState(initialSpells);
   const [parent, setParent] = useState<{ [key: string]: string | null }>({
-    draggable_monster: null,
-    draggable_magic: null
+    ...initialSpells.reduce((acc, spell) => {
+      acc[spell.id] = null;
+      return acc;
+    }, {} as { [key: string]: string | null }),
+    ...initialMonsters.reduce((acc, monster) => {
+      acc[monster.id] = null;
+      return acc;
+    }, {} as { [key: string]: string | null })
   });
 
   const handleDragEnd = ({ active, over }: { active: any, over: any }) => {
-    console.log(active);
-    console.log(over);
     if (over) {
-      if (active.id === 'draggable_monster') {
-        if (over.id === 'zone_monsters_A' || over.id === 'zone_monsters_B' || over.id === 'zone_monsters_C') {
+      if (active.id.startsWith('draggable_monster')) {
+        if (containers_monsters.includes(over.id)) {
           setParent((prev) => ({
             ...prev,
             [active.id]: over.id
           }));
         }
       }
-      if (active.id === 'draggable_magic') {
-        if (over.id === 'zone_magictrap_A' || over.id === 'zone_magictrap_B' || over.id === 'zone_magictrap_C') {
+      if (active.id.startsWith('draggable_spell')) {
+        if (containers_spells.includes(over.id)) {
           setParent((prev) => ({
             ...prev,
             [active.id]: over.id
           }));
         }
       }
-      // setParent((prev) => ({
-      //   ...prev,
-      //   [active.id]: over.id
-      // }));
     } else {
       setParent((prev) => ({
         ...prev,
@@ -44,33 +59,52 @@ export default function App() {
     }
   };
 
-  const draggableMarkup_monsters = (
-    <Draggable id="draggable_monster">Monster</Draggable>
-  );
-  const draggableMarkup_magic = (
-    <Draggable id="draggable_magic">Magic/Trap</Draggable>
-  );
-
   return (
     <div className="main_content">
       <DndContext onDragEnd={handleDragEnd}>
         <div className="hand">
-        {parent.draggable_monster === null ? draggableMarkup_monsters : null}
-        {parent.draggable_magic === null ? draggableMarkup_magic : null}
+          {monsters.map((monster) =>
+            parent[monster.id] === null ? (
+              <Draggable key={monster.id} id={monster.id}>
+                {monster.content}
+              </Draggable>
+            ) : null
+          )}
+          {spells.map((spell) =>
+            parent[spell.id] === null ? (
+              <Draggable key={spell.id} id={spell.id}>
+                {spell.content}
+              </Draggable>
+            ) : null
+          )}
         </div>
         <div className="map_card">
           <div>
             {containers_monsters.map((id) => (
               <Droppable key={id} id={id}>
-                {parent.draggable_monster === id ? draggableMarkup_monsters : 'Drop here'}
+                {monsters.map((monster) =>
+                  parent[monster.id] === id ? (
+                    <Draggable key={monster.id} id={monster.id}>
+                      {monster.content}
+                    </Draggable>
+                  ) : null
+                )}
+                {monsters.every((monster) => parent[monster.id] !== id) && 'Drop here'}
               </Droppable>
             ))}
           </div>
           <div>
-            {containers_magictrap.map((id) => (
+            {containers_spells.map((id) => (
               <Droppable key={id} id={id}>
-                {parent.draggable_magic === id ? draggableMarkup_magic : 'Drop here'}
-              </Droppable>
+              {spells.map((spell) =>
+                parent[spell.id] === id ? (
+                  <Draggable key={spell.id} id={spell.id}>
+                    {spell.content}
+                  </Draggable>
+                ) : null
+              )}
+              {spells.every((spell) => parent[spell.id] !== id) && 'Drop here'}
+            </Droppable>
             ))}
           </div>
         </div>
