@@ -34,8 +34,8 @@ export default function App() {
   });
 
   const handleDragEnd = ({ active, over }: { active: any, over: any }) => {
-    console.log(active);
-    console.log(over);
+    // console.log(active);
+    // console.log(over);
     if (over) {
 
       // Check if the parent have a child already

@@ -1,7 +1,5 @@
 import React from 'react';
 import { useDraggable } from '@dnd-kit/core';
-import { CSS } from '@dnd-kit/utilities';
-import { color } from 'framer-motion';
 
 interface DraggableProps {
   id: string;
@@ -13,19 +11,30 @@ export function Draggable({ id, children }: DraggableProps) {
     id,
   });
 
-  const style = {
+  const containerStyle = {
     transform: transform ? `translate3d(${transform.x}px, ${transform.y}px, 0)` : '',
-    outline: isDragging ? '5px solid pink' : '5px',
+    cursor: 'grab',
+  };
+
+  const innerStyle = {
+    transform: `scale(${isDragging ? 1.2 : 1})`,
+    outline: isDragging ? '5px solid pink' : '5px solid transparent',
     borderRadius: '10px',
     padding: '10px',
     backgroundColor: 'rebeccapurple',
     color: 'white',
-    cursor: 'grab',
+    transition: 'transform 0.2s ease',
+  };
+
+  const handleMouseEnter = () => {
+    console.log(id);
   };
 
   return (
-    <div ref={setNodeRef} style={style} {...listeners} {...attributes}>
-      {children}
+    <div ref={setNodeRef} style={containerStyle} {...listeners} {...attributes} onMouseEnter={handleMouseEnter}>
+      <div style={innerStyle}>
+        {children}
+      </div>
     </div>
   );
 }

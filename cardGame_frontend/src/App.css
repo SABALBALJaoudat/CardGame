@@ -17,7 +17,5 @@
 .field{
   .line{
     display: flex;
-    gap: 10px;
-    margin: 5px;
   }
 }

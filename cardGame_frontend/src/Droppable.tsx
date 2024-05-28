@@ -21,6 +21,8 @@ export function Droppable({ id, children }: DroppableProps) {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
+    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)',
+    borderRadius: '10px',
   };
 
   return (
