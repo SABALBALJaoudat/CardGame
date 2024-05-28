@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { DndContext } from '@dnd-kit/core';
 import { Draggable } from './Draggable';
 import { Droppable } from './Droppable';
+import { ZoomCard } from './ZoomCard';
 
 export default function App() {
   const containers_monsters = ['zone_monsters_A', 'zone_monsters_B', 'zone_monsters_C'];
@@ -73,6 +74,7 @@ export default function App() {
 
   return (
     <div className="main_content">
+      <div className="board">
       <DndContext onDragEnd={handleDragEnd}>
         <div className="hand">
           {monsters.map((monster) =>
@@ -121,6 +123,10 @@ export default function App() {
           </div>
         </div>
       </DndContext>
+      </div>
+      <div className="zoomCard">
+        <ZoomCard/>
+      </div>
     </div>
   );
 }

@@ -1,5 +1,7 @@
 import React from 'react';
 import { useDraggable } from '@dnd-kit/core';
+import { useDispatch } from 'react-redux';
+import { setHoveredId } from './draggableSlice';
 
 interface DraggableProps {
   id: string;
@@ -10,6 +12,8 @@ export function Draggable({ id, children }: DraggableProps) {
   const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({
     id,
   });
+
+  const dispatch = useDispatch();
 
   const containerStyle = {
     transform: transform ? `translate3d(${transform.x}px, ${transform.y}px, 0)` : '',
@@ -28,6 +32,7 @@ export function Draggable({ id, children }: DraggableProps) {
 
   const handleMouseEnter = () => {
     console.log(id);
+    dispatch(setHoveredId(id));
   };
 
   return (
