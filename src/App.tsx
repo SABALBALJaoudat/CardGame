@@ -1,5 +1,5 @@
 import "./App.css";
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { DndContext } from '@dnd-kit/core';
 import { Draggable } from './Draggable';
 import { Droppable } from './Droppable';
@@ -22,8 +22,8 @@ export default function App() {
     { id: 'draggable_spell_3', content: 'Spell 3' }
   ];
 
-  const [monsters, setMonsters] = useState(initialMonsters);
-  const [spells, setSpells] = useState(initialSpells);
+  const [monsters] = useState(initialMonsters);
+  const [spells] = useState(initialSpells);
   const [attack, setAttack] = useState(0);
   const [parent, setParent] = useState<{ [key: string]: string | null }>({
     ...initialSpells.reduce((acc, spell) => {
