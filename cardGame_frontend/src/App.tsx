@@ -1,18 +1,19 @@
 import "./App.css";
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { DndContext } from '@dnd-kit/core';
 import { Draggable } from './Draggable';
 import { Droppable } from './Droppable';
 import { ZoomCard } from './ZoomCard';
+import Score from "./Score";
 
 export default function App() {
   const containers_monsters = ['zone_monsters_A', 'zone_monsters_B', 'zone_monsters_C'];
   const containers_spells = ['zone_spells_A', 'zone_spells_B', 'zone_spells_C'];
 
   const initialMonsters = [
-    { id: 'draggable_monster_1', content: 'Monster 1' },
-    { id: 'draggable_monster_2', content: 'Monster 2' },
-    { id: 'draggable_monster_3', content: 'Monster 3' }
+    { id: 'draggable_monster_1', content: 'Monster 1', attack: 1},
+    { id: 'draggable_monster_2', content: 'Monster 2', attack: 2},
+    { id: 'draggable_monster_3', content: 'Monster 3', attack: 3}
   ];
 
   const initialSpells = [
@@ -23,6 +24,7 @@ export default function App() {
 
   const [monsters, setMonsters] = useState(initialMonsters);
   const [spells, setSpells] = useState(initialSpells);
+  const [attack, setAttack] = useState(0);
   const [parent, setParent] = useState<{ [key: string]: string | null }>({
     ...initialSpells.reduce((acc, spell) => {
       acc[spell.id] = null;
@@ -33,6 +35,15 @@ export default function App() {
       return acc;
     }, {} as { [key: string]: string | null })
   });
+
+  const calculateAttack = (newParent: { [key: string]: string | null }) => {
+    return initialMonsters.reduce((acc, monster) => {
+      if (containers_monsters.includes(newParent[monster.id]!)) {
+        return acc + monster.attack;
+      }
+      return acc;
+    }, 0);
+  };
 
   const handleDragEnd = ({ active, over }: { active: any, over: any }) => {
     // console.log(active);
@@ -45,10 +56,9 @@ export default function App() {
         // Check if the active element is a monster and the containers have the same id has containers_monsters
         if (active.id.startsWith('draggable_monster')) {
           if (containers_monsters.includes(over.id)) {
-            setParent((prev) => ({
-              ...prev,
-              [active.id]: over.id
-            }));
+            const newParent = { ...parent, [active.id]: over.id };
+            setParent(newParent);
+            setAttack(calculateAttack(newParent));
           }
         }
 
@@ -65,12 +75,15 @@ export default function App() {
 
     // If over is null, set the parent to null to replace it in the initial position
     } else {
-      setParent((prev) => ({
-        ...prev,
-        [active.id]: null
-      }));
+      const newParent = { ...parent, [active.id]: null };
+      setParent(newParent);
+      setAttack(calculateAttack(newParent));
     }
   };
+
+  useEffect(() => {
+    setAttack(calculateAttack(parent));
+  }, [parent]);
 
   return (
     <div className="main_content">
@@ -126,6 +139,7 @@ export default function App() {
       </div>
       <div className="zoomCard">
         <ZoomCard/>
+        <Score attack={attack}/>
       </div>
     </div>
   );
