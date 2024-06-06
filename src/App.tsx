@@ -7,38 +7,38 @@ import { ZoomCard } from './ZoomCard';
 import Score from "./Score";
 
 export default function App() {
-  const containers_monsters = ['zone_monsters_A', 'zone_monsters_B', 'zone_monsters_C'];
-  const containers_spells = ['zone_spells_A', 'zone_spells_B', 'zone_spells_C'];
+  const containers_monsters_J1 = ['zone_monsters_A', 'zone_monsters_B', 'zone_monsters_C'];
+  const containers_monsters_J2 = ['zone_monsters_1', 'zone_monsters_2', 'zone_monsters_3'];
 
-  const initialMonsters = [
-    { id: 'draggable_monster_1', content: 'Monster 1', attack: 1},
-    { id: 'draggable_monster_2', content: 'Monster 2', attack: 2},
-    { id: 'draggable_monster_3', content: 'Monster 3', attack: 3}
+  const initialMonsters_J1 = [
+    { id: 'draggable_monster_J1_1', content: 'Monster 1', attack: 1},
+    { id: 'draggable_monster_J1_2', content: 'Monster 2', attack: 2},
+    { id: 'draggable_monster_J1_3', content: 'Monster 3', attack: 3}
   ];
 
-  const initialSpells = [
-    { id: 'draggable_spell_1', content: 'Spell 1' },
-    { id: 'draggable_spell_2', content: 'Spell 2' },
-    { id: 'draggable_spell_3', content: 'Spell 3' }
+  const initialMonsters_J2 = [
+    { id: 'draggable_monster_J2_1', content: 'Monster 1', attack: 1 },
+    { id: 'draggable_monster_J2_2', content: 'Monster 2', attack: 2 },
+    { id: 'draggable_monster_J2_3', content: 'Monster 3', attack: 3 }
   ];
 
-  const [monsters] = useState(initialMonsters);
-  const [spells] = useState(initialSpells);
+  const [monsters_J1] = useState(initialMonsters_J1);
+  const [monsters_J2] = useState(initialMonsters_J2);
   const [attack, setAttack] = useState(0);
   const [parent, setParent] = useState<{ [key: string]: string | null }>({
-    ...initialSpells.reduce((acc, spell) => {
-      acc[spell.id] = null;
+    ...initialMonsters_J2.reduce((acc, monster) => {
+      acc[monster.id] = null;
       return acc;
     }, {} as { [key: string]: string | null }),
-    ...initialMonsters.reduce((acc, monster) => {
+    ...initialMonsters_J1.reduce((acc, monster) => {
       acc[monster.id] = null;
       return acc;
     }, {} as { [key: string]: string | null })
   });
 
   const calculateAttack = (newParent: { [key: string]: string | null }) => {
-    return initialMonsters.reduce((acc, monster) => {
-      if (containers_monsters.includes(newParent[monster.id]!)) {
+    return initialMonsters_J1.reduce((acc, monster) => {
+      if (containers_monsters_J1.includes(newParent[monster.id]!)) {
         return acc + monster.attack;
       }
       return acc;
@@ -54,8 +54,8 @@ export default function App() {
       if (!Object.values(parent).includes(over.id)) {
 
         // Check if the active element is a monster and the containers have the same id has containers_monsters
-        if (active.id.startsWith('draggable_monster')) {
-          if (containers_monsters.includes(over.id)) {
+        if (active.id.startsWith('draggable_monster_J1')) {
+          if (containers_monsters_J1.includes(over.id)) {
             const newParent = { ...parent, [active.id]: over.id };
             setParent(newParent);
             setAttack(calculateAttack(newParent));
@@ -63,8 +63,8 @@ export default function App() {
         }
 
         // Check if the active element is a spell and the containers have the same id has containers_spells
-        if (active.id.startsWith('draggable_spell')) {
-          if (containers_spells.includes(over.id)) {
+        if (active.id.startsWith('draggable_monster_J2')) {
+          if (containers_monsters_J2.includes(over.id)) {
             setParent((prev) => ({
               ...prev,
               [active.id]: over.id
@@ -90,47 +90,39 @@ export default function App() {
       <div className="board">
       <DndContext onDragEnd={handleDragEnd}>
         <div className="hand">
-          {monsters.map((monster) =>
+          {monsters_J1.map((monster) =>
             parent[monster.id] === null ? (
-              <Draggable key={monster.id} id={monster.id}>
-                {monster.content}
-              </Draggable>
+              <Draggable key={monster.id} monster={monster} />
             ) : null
           )}
-          {spells.map((spell) =>
-            parent[spell.id] === null ? (
-              <Draggable key={spell.id} id={spell.id}>
-                {spell.content}
-              </Draggable>
+          {monsters_J2.map((monster) =>
+            parent[monster.id] === null ? (
+              <Draggable key={monster.id} monster={monster} />
             ) : null
           )}
         </div>
         <div className="field">
           <div className="line">
-            {containers_monsters.map((id) => (
+            {containers_monsters_J1.map((id) => (
               <Droppable key={id} id={id}>
-                {monsters.map((monster) =>
+                {monsters_J1.map((monster) =>
                   parent[monster.id] === id ? (
-                    <Draggable key={monster.id} id={monster.id}>
-                      {monster.content}
-                    </Draggable>
+                    <Draggable key={monster.id} monster={monster} />
                   ) : null
                 )}
-                {monsters.every((monster) => parent[monster.id] !== id) && 'Monster field'}
+                {monsters_J1.every((monster) => parent[monster.id] !== id) && 'Monster field Player 1'}
               </Droppable>
             ))}
           </div>
           <div className="line">
-            {containers_spells.map((id) => (
+            {containers_monsters_J2.map((id) => (
               <Droppable key={id} id={id}>
-              {spells.map((spell) =>
-                parent[spell.id] === id ? (
-                  <Draggable key={spell.id} id={spell.id}>
-                    {spell.content}
-                  </Draggable>
-                ) : null
-              )}
-              {spells.every((spell) => parent[spell.id] !== id) && 'Spell field'}
+                {monsters_J2.map((monster) =>
+                  parent[monster.id] === id ? (
+                    <Draggable key={monster.id} monster={monster} />
+                  ) : null
+                )}
+                {monsters_J2.every((monster) => parent[monster.id] !== id) && 'Monster field Player 2'}
               </Droppable>
             ))}
           </div>

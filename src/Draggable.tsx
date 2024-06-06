@@ -1,16 +1,14 @@
-import React from 'react';
 import { useDraggable } from '@dnd-kit/core';
 import { useDispatch } from 'react-redux';
-import { setHoveredId } from './draggableSlice';
+import { setHoveredId } from './Store/draggableSlice';
 
 interface DraggableProps {
-  id: string;
-  children: React.ReactNode;
+  monster: Monster;
 }
 
-export function Draggable({ id, children }: DraggableProps) {
+export function Draggable({ monster }: DraggableProps) {
   const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({
-    id,
+    id: monster.id,
   });
 
   const dispatch = useDispatch();
@@ -25,20 +23,20 @@ export function Draggable({ id, children }: DraggableProps) {
     outline: isDragging ? '5px solid pink' : '5px solid transparent',
     borderRadius: '10px',
     padding: '10px',
-    backgroundColor: 'rebeccapurple',
+    backgroundColor: 'black',
     color: 'white',
     transition: 'transform 0.2s ease',
   };
 
   const handleMouseEnter = () => {
-    console.log(id);
-    dispatch(setHoveredId(id));
+    console.log(monster.id);
+    dispatch(setHoveredId(monster.id));
   };
 
   return (
     <div ref={setNodeRef} style={containerStyle} {...listeners} {...attributes} onMouseEnter={handleMouseEnter}>
       <div style={innerStyle}>
-        {children}
+        {monster.content}
       </div>
     </div>
   );
