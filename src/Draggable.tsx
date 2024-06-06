@@ -1,6 +1,6 @@
 import { useDraggable } from '@dnd-kit/core';
 import { useDispatch } from 'react-redux';
-import { setHoveredId } from './Store/draggableSlice';
+import { setHoveredCardInfo } from './Store/draggableSlice';
 
 interface DraggableProps {
   monster: Monster;
@@ -30,7 +30,7 @@ export function Draggable({ monster }: DraggableProps) {
 
   const handleMouseEnter = () => {
     console.log(monster.id);
-    dispatch(setHoveredId(monster.id));
+    dispatch(setHoveredCardInfo(monster));
   };
 
   return (

@@ -1,4 +1,4 @@
-import "./App.css";
+import "./css/App.css";
 import { useEffect, useState } from 'react';
 import { DndContext } from '@dnd-kit/core';
 import { Draggable } from './Draggable';

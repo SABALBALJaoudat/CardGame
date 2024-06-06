@@ -1,14 +1,16 @@
 import { useSelector } from 'react-redux';
 
 export function ZoomCard() {
-  const hoveredId = useSelector((state: any) => state.draggable.hoveredId);
+  const hoveredCardInfo = useSelector((state: any) => state.draggable.hoveredCardInfo);
 
   return (
     <>
-      {hoveredId && (
+      {hoveredCardInfo && (
       <div className='card_detailed'>
         <div className='title'>
-          {hoveredId}
+          id : {hoveredCardInfo.id}<br />
+          content : {hoveredCardInfo.content}<br />
+          attack : {hoveredCardInfo.attack}<br />
         </div>
       </div>
       )}
