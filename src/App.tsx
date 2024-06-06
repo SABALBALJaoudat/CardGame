@@ -1,26 +1,16 @@
-import "./css/App.css";
+import "./Css/App.css";
 import { useEffect, useState } from 'react';
 import { DndContext } from '@dnd-kit/core';
 import { Draggable } from './Draggable';
 import { Droppable } from './Droppable';
 import { ZoomCard } from './ZoomCard';
 import Score from "./Score";
+import { initialMonsters_J1, initialMonsters_J2 } from './Data/Deck';
 
 export default function App() {
+  //Plateau de jeu
   const containers_monsters_J1 = ['zone_monsters_A', 'zone_monsters_B', 'zone_monsters_C'];
   const containers_monsters_J2 = ['zone_monsters_1', 'zone_monsters_2', 'zone_monsters_3'];
-
-  const initialMonsters_J1 = [
-    { id: 'draggable_monster_J1_1', content: 'Monster 1', attack: 1},
-    { id: 'draggable_monster_J1_2', content: 'Monster 2', attack: 2},
-    { id: 'draggable_monster_J1_3', content: 'Monster 3', attack: 3}
-  ];
-
-  const initialMonsters_J2 = [
-    { id: 'draggable_monster_J2_1', content: 'Monster 1', attack: 1 },
-    { id: 'draggable_monster_J2_2', content: 'Monster 2', attack: 2 },
-    { id: 'draggable_monster_J2_3', content: 'Monster 3', attack: 3 }
-  ];
 
   const [monsters_J1] = useState(initialMonsters_J1);
   const [monsters_J2] = useState(initialMonsters_J2);
