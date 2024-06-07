@@ -11,15 +11,15 @@ function shuffleArray(array: any[]) {
 
 // Remplissage des decks de manière aléatoire
 const shuffledCards = shuffleArray(allCards);
-export const initialMonsters_J1 = shuffledCards.slice(0, 5).map((card, index) => ({
+export const deck_J1 = shuffledCards.slice(0, 10).map((card, index) => ({
     id: `draggable_monster_J1_${index + 1}`,
     content: card.title,
     attack: card.attack
 }));
 
-const remainingCards = shuffledCards.slice(5); // Cartes restantes après avoir pris 5 pour le joueur 1
+const remainingCards = shuffledCards.slice(10); // Cartes restantes après avoir pris 5 pour le joueur 1
 
-export const initialMonsters_J2 = remainingCards.slice(0, 5).map((card, index) => ({
+export const deck_J2 = remainingCards.slice(0, 10).map((card, index) => ({
     id: `draggable_monster_J2_${index + 1}`,
     content: card.title,
     attack: card.attack

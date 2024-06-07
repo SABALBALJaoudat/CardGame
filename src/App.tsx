@@ -5,30 +5,71 @@ import { Draggable } from './Draggable';
 import { Droppable } from './Droppable';
 import { ZoomCard } from './ZoomCard';
 import Score from "./Score";
-import { initialMonsters_J1, initialMonsters_J2 } from './Data/Deck';
+import { deck_J1 as initialDeck_J1, deck_J2 as initialDeck_J2 } from './Data/Deck';
 
 export default function App() {
   //Plateau de jeu
-  const containers_monsters_J1 = ['zone_monsters_A', 'zone_monsters_B', 'zone_monsters_C'];
-  const containers_monsters_J2 = ['zone_monsters_1', 'zone_monsters_2', 'zone_monsters_3'];
+  const containers_monsters_J1 = ['zone_monsters_J1_1', 'zone_monsters_J1_2', 'zone_monsters_J1_3'];
+  const containers_monsters_J2 = ['zone_monsters_J2_1', 'zone_monsters_J2_2', 'zone_monsters_J2_3'];
 
-  const [monsters_J1] = useState(initialMonsters_J1);
-  const [monsters_J2] = useState(initialMonsters_J2);
-  const [attack, setAttack] = useState(0);
+
+  // Initialisation des états pour les mains et les decks
+  const [deck_J1, setDeck_J1] = useState(initialDeck_J1);
+  const [deck_J2, setDeck_J2] = useState(initialDeck_J2);
+  const [hand_J1, setHand_J1] = useState(initialDeck_J1.slice(0, 3));
+  const [hand_J2, setHand_J2] = useState(initialDeck_J2.slice(0, 3));
+  const [attack_J1, setAttack_J1] = useState(0);
+  const [attack_J2, setAttack_J2] = useState(0);
   const [parent, setParent] = useState<{ [key: string]: string | null }>({
-    ...initialMonsters_J2.reduce((acc, monster) => {
+    ...initialDeck_J2.reduce((acc, monster) => {
       acc[monster.id] = null;
       return acc;
     }, {} as { [key: string]: string | null }),
-    ...initialMonsters_J1.reduce((acc, monster) => {
+    ...initialDeck_J1.reduce((acc, monster) => {
       acc[monster.id] = null;
       return acc;
     }, {} as { [key: string]: string | null })
   });
 
-  const calculateAttack = (newParent: { [key: string]: string | null }) => {
-    return initialMonsters_J1.reduce((acc, monster) => {
+  const shuffleHand = () => {
+    // Shuffle the deck_J1
+    const shuffledDeck_J1 = [...deck_J1].sort(() => Math.random() - 0.5);
+
+    // Select the first 3 cards for hand_J1
+    setHand_J1(shuffledDeck_J1.slice(0, 3));
+    setDeck_J1(shuffledDeck_J1);
+
+    // Shuffle the deck_J2
+    const shuffledDeck_J2 = [...deck_J2].sort(() => Math.random() - 0.5);
+
+    // Select the first 3 cards for hand_J2
+    setHand_J2(shuffledDeck_J2.slice(0, 3));
+    setDeck_J2(shuffledDeck_J2);
+
+    setParent({
+      ...shuffledDeck_J1.reduce((acc, monster) => {
+        acc[monster.id] = null;
+        return acc;
+      }, {} as { [key: string]: string | null }),
+      ...shuffledDeck_J2.reduce((acc, monster) => {
+        acc[monster.id] = null;
+        return acc;
+      }, {} as { [key: string]: string | null })
+    });
+  };
+
+  const calculateAttack_J1 = (newParent: { [key: string]: string | null }) => {
+    return deck_J1.reduce((acc, monster) => {
       if (containers_monsters_J1.includes(newParent[monster.id]!)) {
+        return acc + monster.attack;
+      }
+      return acc;
+    }, 0);
+  };
+
+  const calculateAttack_J2 = (newParent: { [key: string]: string | null }) => {
+    return deck_J2.reduce((acc, monster) => {
+      if (containers_monsters_J2.includes(newParent[monster.id]!)) {
         return acc + monster.attack;
       }
       return acc;
@@ -48,17 +89,16 @@ export default function App() {
           if (containers_monsters_J1.includes(over.id)) {
             const newParent = { ...parent, [active.id]: over.id };
             setParent(newParent);
-            setAttack(calculateAttack(newParent));
+            setAttack_J1(calculateAttack_J1(newParent));
           }
         }
 
         // Check if the active element is a spell and the containers have the same id has containers_spells
         if (active.id.startsWith('draggable_monster_J2')) {
           if (containers_monsters_J2.includes(over.id)) {
-            setParent((prev) => ({
-              ...prev,
-              [active.id]: over.id
-            }));
+            const newParent = { ...parent, [active.id]: over.id };
+            setParent(newParent);
+            setAttack_J2(calculateAttack_J2(newParent));
           }
         }
       }
@@ -67,12 +107,14 @@ export default function App() {
     } else {
       const newParent = { ...parent, [active.id]: null };
       setParent(newParent);
-      setAttack(calculateAttack(newParent));
+      setAttack_J1(calculateAttack_J1(newParent));
+      setAttack_J2(calculateAttack_J2(newParent));
     }
   };
 
   useEffect(() => {
-    setAttack(calculateAttack(parent));
+    setAttack_J1(calculateAttack_J1(parent));
+    setAttack_J2(calculateAttack_J2(parent));
   }, [parent]);
 
   return (
@@ -80,12 +122,7 @@ export default function App() {
       <div className="board">
       <DndContext onDragEnd={handleDragEnd}>
         <div className="hand">
-          {monsters_J1.map((monster) =>
-            parent[monster.id] === null ? (
-              <Draggable key={monster.id} monster={monster} />
-            ) : null
-          )}
-          {monsters_J2.map((monster) =>
+          {hand_J1.map((monster) =>
             parent[monster.id] === null ? (
               <Draggable key={monster.id} monster={monster} />
             ) : null
@@ -95,33 +132,41 @@ export default function App() {
           <div className="line">
             {containers_monsters_J1.map((id) => (
               <Droppable key={id} id={id}>
-                {monsters_J1.map((monster) =>
+                {deck_J1.map((monster) =>
                   parent[monster.id] === id ? (
                     <Draggable key={monster.id} monster={monster} />
                   ) : null
                 )}
-                {monsters_J1.every((monster) => parent[monster.id] !== id) && 'Monster field Player 1'}
+                {deck_J1.every((monster) => parent[monster.id] !== id) && 'Monster field Player 1'}
               </Droppable>
             ))}
           </div>
+          <button onClick={shuffleHand}>Mélange</button>
           <div className="line">
             {containers_monsters_J2.map((id) => (
               <Droppable key={id} id={id}>
-                {monsters_J2.map((monster) =>
+                {deck_J2.map((monster) =>
                   parent[monster.id] === id ? (
                     <Draggable key={monster.id} monster={monster} />
                   ) : null
                 )}
-                {monsters_J2.every((monster) => parent[monster.id] !== id) && 'Monster field Player 2'}
+                {deck_J2.every((monster) => parent[monster.id] !== id) && 'Monster field Player 2'}
               </Droppable>
             ))}
           </div>
+        </div>
+        <div className="hand">
+          {hand_J2.map((monster) =>
+            parent[monster.id] === null ? (
+              <Draggable key={monster.id} monster={monster} />
+            ) : null
+          )}
         </div>
       </DndContext>
       </div>
       <div className="zoomCard">
         <ZoomCard/>
-        <Score attack={attack}/>
+        <Score attack_J1={attack_J1} attack_J2={attack_J2} shuffleHand={shuffleHand} />
       </div>
     </div>
   );
