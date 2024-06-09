@@ -13,7 +13,7 @@
   height: 100%;
 }
 
-.board{
+.board {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -22,7 +22,7 @@
   height: 100%;
   background-color: antiquewhite;
 
-  .line{
+  .line {
     display: flex;
   }
 }
@@ -34,10 +34,11 @@
   justify-content: center;
   width: 25%;
   height: 100%;
+  overflow-y: auto;
   background-color: aliceblue;
 }
 
-.card_detailed{
+.card_detailed {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -47,8 +48,8 @@
   background-color: black;
   /*transform-style: preserve-3d;
   transform: perspective(1000px);*/
-  
-  .title{
+
+  .title {
     color: white;
     font-size: 18px;
     font-weight: bold;
