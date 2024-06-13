@@ -1,30 +1,16 @@
-# React + TypeScript + Vite
+# CardGame en React + TypeScript + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A propos :
+Ceci est mon nouveau projet de création de jeu de cartes.
+Ce projet provient d'une envie que j'ai depuis tres longtemps sur mon envie de reproduire un style de jeu de carte se rapprochant de Yu-gi-oh et One Piece Card Game qui sont 2 de mes jeux de cartes préférés. Ainsi, dans ma passion des jeux de cartes à collectionner et du codage, j'ai décidé dans un premier temps de juste essayer de reproduire certaines interactions que l'on peux voir dans des jeux de cartes deja existant.
+Et c'est au travers de ces interactions que j'ai intégré petit à petit que j'ai au final chercher à implémenter totalement un vrai plateau de jeu de carte. Je souhaite donc continuer à y apporter de nouvelles features, et ainsi créer un jeu le plus complet possible.
 
-Currently, two official plugins are available:
+Vous trouverez également dans ce README les prochaines idées de features que je souhaite rajouter. Et peut etre à termes je ferai aussi un Notion lié à ce projet.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
-
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+To do List :
+- Systeme de "collection"
+- Systeme de création de deck
+- Systeme d'énergie
+- Rajout d'image et d'information pour les cartes
+- Effet 3D quand on drag une carte
+- Création d'un "cimetiere" pour piocher des cartes pas encore jouer
