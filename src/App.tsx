@@ -14,8 +14,8 @@ export default function App() {
 
 
   // Initialisation des états pour les mains et les decks
-  const [deck_J1, setDeck_J1] = useState(initialDeck_J1);
-  const [deck_J2, setDeck_J2] = useState(initialDeck_J2);
+  const [deck_J1] = useState(initialDeck_J1);
+  const [deck_J2] = useState(initialDeck_J2);
   const [hand_J1, setHand_J1] = useState(initialDeck_J1.slice(0, 3));
   const [hand_J2, setHand_J2] = useState(initialDeck_J2.slice(0, 3));
   const [attack_J1, setAttack_J1] = useState(0);
@@ -33,7 +33,6 @@ export default function App() {
 
   const shuffleHand = () => {
     // Filter out the cards that are already in hand_J1 or in the droppable area
-    // console.log(hand_J1);
     const filteredDeck_J1 = deck_J1.filter(card => !hand_J1.includes(card) && parent[card.id] === null);
 
     // Shuffle the filtered deck
@@ -44,33 +43,32 @@ export default function App() {
     const cardsInHandLength = hand_J1.filter(card => parent[card.id] === null).length;
     const cardsNeeded = 3 - cardsInHandLength;
 
-    Object.keys(parent).forEach(key => {
-      parent[key] = null;
-    });
-
     // Select the needed number of cards for hand_J1
     const newCards = shuffledDeck_J1.slice(0, cardsNeeded);
-    // console.log(newCards);
-    // console.log(cardsInHand.concat(newCards));
     setHand_J1(cardsInHand.concat(newCards));
-    console.log(hand_J1);
 
-    // Update deck_J1 with the remaining cards
-    setDeck_J1(deck_J1);
+    // Filter out the cards that are already in hand_J1 or in the droppable area
+    const filteredDeck_J2 = deck_J2.filter(card => !hand_J2.includes(card) && parent[card.id] === null);
 
-    // Shuffle the deck_J2
-    const shuffledDeck_J2 = [...deck_J2].sort(() => Math.random() - 0.5);
+    // Shuffle the filtered deck
+    const shuffledDeck_J2 = [...filteredDeck_J2].sort(() => Math.random() - 0.5);
 
-    // Select the first 3 cards for hand_J2
-    setHand_J2(shuffledDeck_J2.slice(0, 3));
-    setDeck_J2(shuffledDeck_J2);
+    // Calculate the number of cards needed to reach 3 in hand
+    const cardsInHand_J2 = hand_J2.filter(card => parent[card.id] === null);
+    const cardsInHandLength_J2 = hand_J2.filter(card => parent[card.id] === null).length;
+    const cardsNeeded_J2 = 3 - cardsInHandLength_J2;
 
+    // Select the needed number of cards for hand_J1
+    const newCards_J2 = shuffledDeck_J2.slice(0, cardsNeeded_J2);
+    setHand_J2(cardsInHand_J2.concat(newCards_J2));
+
+    // Reset the parent state
     setParent({
-      ...shuffledDeck_J1.reduce((acc, monster) => {
+      ...deck_J1.reduce((acc, monster) => {
         acc[monster.id] = null;
         return acc;
       }, {} as { [key: string]: string | null }),
-      ...shuffledDeck_J2.reduce((acc, monster) => {
+      ...deck_J2.reduce((acc, monster) => {
         acc[monster.id] = null;
         return acc;
       }, {} as { [key: string]: string | null })
