@@ -1,3 +1,22 @@
+.home{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5%;
+  width: 100vw;
+  height: 100vh;
+  background-color: #f5f5f5;
+}
+
+.selectButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20%;
+  margin: 5px;
+}
+
 .hand {
   display: flex;
   gap: 10px;
