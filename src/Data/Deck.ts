@@ -10,7 +10,8 @@ function shuffleArray(array: any[]) {
 }
 
 // Remplissage des decks de manière aléatoire
-const shuffledCards = shuffleArray(allCards);
+const allCards_copy = [...allCards]
+const shuffledCards = shuffleArray(allCards_copy);
 export const deck_J1 = shuffledCards.slice(0, 10).map((card, index) => ({
     id: `draggable_monster_J1_${index + 1}`,
     content: card.title,
