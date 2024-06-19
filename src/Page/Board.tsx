@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { DndContext } from '@dnd-kit/core';
-import { Draggable } from '../Draggable';
-import { Droppable } from '../Droppable';
-import { ZoomCard } from '../ZoomCard';
-import Score from "../Score";
+import { Draggable } from '../Component/Draggable';
+import { Droppable } from '../Component/Droppable';
+import { ZoomCard } from '../Component/ZoomCard';
+import Score from "../Component/Score";
 import { deck_J1 as initialDeck_J1, deck_J2 as initialDeck_J2 } from '../Data/Deck';
 
 export default function Board() {

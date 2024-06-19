@@ -1,6 +1,6 @@
 import { useDraggable } from '@dnd-kit/core';
 import { useDispatch } from 'react-redux';
-import { setHoveredCardInfo } from './Store/draggableSlice';
+import { setHoveredCardInfo } from '../Store/draggableSlice';
 
 interface DraggableProps {
   monster: Monster;
