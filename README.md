@@ -8,8 +8,9 @@ Et c'est au travers de ces interactions que j'ai intégré petit à petit que j'
 Vous trouverez également dans ce README les prochaines idées de features que je souhaite rajouter. Et peut etre à termes je ferai aussi un Notion lié à ce projet.
 
 To do List :
+
 - [x] Page d'acceuil
-- [ ] Systeme de "collection"
+- [x] Systeme de "collection"
 - [ ] Systeme de création de deck
 - [ ] Systeme d'énergie
 - [ ] Rajout d'image et d'information pour les cartes
