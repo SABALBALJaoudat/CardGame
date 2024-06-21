@@ -4,27 +4,32 @@ import { Draggable } from '../Component/Draggable';
 import { Droppable } from '../Component/Droppable';
 import { ZoomCard } from '../Component/ZoomCard';
 import Score from "../Component/Score";
-import { deck_J1 as initialDeck_J1, deck_J2 as initialDeck_J2 } from '../Data/Deck';
+import { RootState } from '@reduxjs/toolkit/query';
+import { useSelector } from 'react-redux';
+// import { deck_J1 as initialDeck_J1, deck_J2 as initialDeck_J2 } from '../Data/Deck';
 
 export default function Board() {
+  const deck_J1: Card[] = useSelector((state: RootState) => state.decks.deck_J1);
+  const deck_J2: Card[] = useSelector((state: RootState) => state.decks.deck_J2);
+
   //Plateau de jeu
   const containers_monsters_J1 = ['zone_monsters_J1_1', 'zone_monsters_J1_2', 'zone_monsters_J1_3'];
   const containers_monsters_J2 = ['zone_monsters_J2_1', 'zone_monsters_J2_2', 'zone_monsters_J2_3'];
 
 
   // Initialisation des états pour les mains et les decks
-  const [deck_J1] = useState(initialDeck_J1);
-  const [deck_J2] = useState(initialDeck_J2);
-  const [hand_J1, setHand_J1] = useState(initialDeck_J1.slice(0, 3));
-  const [hand_J2, setHand_J2] = useState(initialDeck_J2.slice(0, 3));
+  // const [deck_J1] = useState(initialDeck_J1);
+  // const [deck_J2] = useState(initialDeck_J2);
+  const [hand_J1, setHand_J1] = useState(deck_J1.slice(0, 3));
+  const [hand_J2, setHand_J2] = useState(deck_J2.slice(0, 3));
   const [attack_J1, setAttack_J1] = useState(0);
   const [attack_J2, setAttack_J2] = useState(0);
   const [parent, setParent] = useState<{ [key: string]: string | null }>({
-    ...initialDeck_J2.reduce((acc, monster) => {
+    ...deck_J2.reduce((acc, monster) => {
       acc[monster.id] = null;
       return acc;
     }, {} as { [key: string]: string | null }),
-    ...initialDeck_J1.reduce((acc, monster) => {
+    ...deck_J1.reduce((acc, monster) => {
       acc[monster.id] = null;
       return acc;
     }, {} as { [key: string]: string | null })

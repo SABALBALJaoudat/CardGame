@@ -36,7 +36,7 @@ export function Draggable({ monster }: DraggableProps) {
   return (
     <div ref={setNodeRef} style={containerStyle} {...listeners} {...attributes} onMouseEnter={handleMouseEnter}>
       <div style={innerStyle}>
-        {monster.content}
+        {monster.title}
       </div>
     </div>
   );

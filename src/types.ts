@@ -1,4 +1,16 @@
 interface Monster {
     id: string;
-    content: string;
+    title: string;
 }
+
+interface Card {
+    id: string;
+    cardId: string;
+    title: string;
+    attack: number;
+  }
+  
+  interface DecksState {
+    deck_J1: Card[];
+    deck_J2: Card[];
+  }
