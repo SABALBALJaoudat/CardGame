@@ -4,7 +4,7 @@ import { Draggable } from '../Component/Draggable';
 import { Droppable } from '../Component/Droppable';
 import { ZoomCard } from '../Component/ZoomCard';
 import Score from "../Component/Score";
-import { RootState } from '@reduxjs/toolkit/query';
+import { RootState } from '../Store/store';
 import { useSelector } from 'react-redux';
 // import { deck_J1 as initialDeck_J1, deck_J2 as initialDeck_J2 } from '../Data/Deck';
 
