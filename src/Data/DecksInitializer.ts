@@ -44,7 +44,7 @@ const DecksInitializer = () => {
 
 export default DecksInitializer;
 
-// Remplissage des decks de manière aléatoire
+// // Remplissage des decks de manière aléatoire
 // const allCards_copy = [...allCards]
 // const shuffledCards = shuffleArray(allCards_copy);
 // export const deck_J1 = shuffledCards.slice(0, 10).map((card, index) => ({
