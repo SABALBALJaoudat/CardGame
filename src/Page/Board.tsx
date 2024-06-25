@@ -117,7 +117,9 @@ export default function Board() {
     }, 0);
   };
 
-  const handleDragEnd = ({ active, over }: { active: any, over: any }) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  function handleDragEnd(event: any) {
+    const { active, over } = event;
     // console.log(active);
     // console.log(over);
     if (over) {
@@ -151,7 +153,7 @@ export default function Board() {
       setAttack_J1(calculateAttack_J1(newParent));
       setAttack_J2(calculateAttack_J2(newParent));
     }
-  };
+  }
 
   useEffect(() => {
     setAttack_J1(calculateAttack_J1(parent));

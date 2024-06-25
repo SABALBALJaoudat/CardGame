@@ -3,7 +3,7 @@ import "../Css/Collection.css";
 import { allCards } from "../Data/Cards";
 import { RootState } from "../Store/store";
 import { setDeckJ1, setDeckJ2 } from "../Store/decksSlice";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Deck() {
   const dispatch = useDispatch();
@@ -12,6 +12,11 @@ export default function Deck() {
 
   const [tempDeck_J1, setTempDeck_J1] = useState(deck_J1);
   const [tempDeck_J2, setTempDeck_J2] = useState(deck_J2);
+
+  useEffect(() => {
+    setTempDeck_J1(deck_J1);
+    setTempDeck_J2(deck_J2);
+  }, [deck_J1, deck_J2]);
 
   const handleCardClick_J1 = (cardId: string) => {
     const card = allCards.find(card => card.cardId === cardId);
@@ -82,7 +87,7 @@ export default function Deck() {
         <div className="deck_J1">
           <h2>Deck Joueur 1</h2>
           {deck_J1.map((card: Card) =>
-            <div className='card'>
+            <div key={card.id} className='card'>
               <div className='title'>
                 id : {card.id}<br />
                 cardId : {card.cardId}<br />
@@ -111,7 +116,7 @@ export default function Deck() {
         <div className="deck_J2">
           <h2>Deck Joueur 2</h2>
           {deck_J2.map((card: Card) =>
-            <div className='card'>
+            <div key={card.id} className='card'>
               <div className='title'>
                 id : {card.id}<br />
                 cardId : {card.cardId}<br />

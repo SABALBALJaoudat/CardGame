@@ -4,7 +4,7 @@ import { setDeckJ1, setDeckJ2 } from '../Store/decksSlice';
 import { allCards } from './Cards';
 
 // Fonction de mélange aléatoire
-function shuffleArray(array: any[]) {
+function shuffleArray(array: {cardId: string; title: string; attack: number;}[]) {
     for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [array[i], array[j]] = [array[j], array[i]];
