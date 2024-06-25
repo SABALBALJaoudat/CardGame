@@ -26,7 +26,7 @@ export default function Deck() {
         setTempDeck_J1([
           ...tempDeck_J1,
           {
-            id: `draggable_monster_J1_${tempDeck_J1.length + 1}`,
+            id: `draggable_monster_J1_${card.cardId}`,
             cardId: card.cardId,
             title: card.title,
             attack: card.attack
@@ -46,7 +46,7 @@ export default function Deck() {
         setTempDeck_J2([
           ...tempDeck_J2,
           {
-            id: `draggable_monster_J2_${tempDeck_J2.length + 1}`,
+            id: `draggable_monster_J2_${card.cardId}`,
             cardId: card.cardId,
             title: card.title,
             attack: card.attack
@@ -59,8 +59,14 @@ export default function Deck() {
   };
 
   const handleConfirm = () => {
-    dispatch(setDeckJ1(tempDeck_J1));
-    dispatch(setDeckJ2(tempDeck_J2));
+    if (tempDeck_J1.length < 10 || tempDeck_J2.length < 10 || tempDeck_J1.length > 20 || tempDeck_J2.length > 20) {
+      alert("Le deck doit contenir entre 10 et 20 cartes");
+      return;
+    }
+    else {
+      dispatch(setDeckJ1(tempDeck_J1));
+      dispatch(setDeckJ2(tempDeck_J2));
+    }
   };
 
   return (

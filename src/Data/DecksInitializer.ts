@@ -18,16 +18,16 @@ const DecksInitializer = () => {
   useEffect(() => {
     const allCards_copy = [...allCards];
     const shuffledCards = shuffleArray(allCards_copy);
-    const deck_J1 = shuffledCards.slice(0, 10).map((card, index) => ({
-      id: `draggable_monster_J1_${index + 1}`,
+    const deck_J1 = shuffledCards.slice(0, 10).map((card) => ({
+      id: `draggable_monster_J1_${card.cardId}`,
       cardId: card.cardId,
       title: card.title,
       attack: card.attack
     }));
 
     const remainingCards = shuffledCards.slice(10);
-    const deck_J2 = remainingCards.slice(0, 10).map((card, index) => ({
-      id: `draggable_monster_J2_${index + 1}`,
+    const deck_J2 = remainingCards.slice(0, 10).map((card) => ({
+      id: `draggable_monster_J2_${card.cardId}`,
       cardId: card.cardId,
       title: card.title,
       attack: card.attack
