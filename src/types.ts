@@ -8,6 +8,7 @@ interface Card {
     cardId: string;
     title: string;
     attack: number;
+    energie: number;
   }
   
   interface DecksState {

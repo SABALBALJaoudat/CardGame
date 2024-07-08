@@ -12,6 +12,7 @@ export function ZoomCard() {
             id : {hoveredCardInfo.id}<br />
             content : {hoveredCardInfo.title}<br />
             attack : {hoveredCardInfo.attack}<br />
+            energie : {hoveredCardInfo.energie}<br />
           </div>
         </div>
       )}

@@ -24,6 +24,8 @@ export default function Board() {
   const [hand_J2, setHand_J2] = useState(deck_J2.slice(0, 3));
   const [attack_J1, setAttack_J1] = useState(0);
   const [attack_J2, setAttack_J2] = useState(0);
+  const [energie_J1, setEnergie_J1] = useState(0);
+  const [energie_J2, setEnergie_J2] = useState(0);
   const [parent, setParent] = useState<{ [key: string]: string | null }>({
     ...deck_J2.reduce((acc, monster) => {
       acc[monster.id] = null;
@@ -117,6 +119,25 @@ export default function Board() {
     }, 0);
   };
 
+  //calculate energie
+  const calculateEnergie_J1 = (newParent: { [key: string]: string | null }) => {
+    return deck_J1.reduce((acc, monster) => {
+      if (containers_monsters_J1.includes(newParent[monster.id]!)) {
+        return acc + monster.energie;
+      }
+      return acc;
+    }, 0);
+  }
+
+  const calculateEnergie_J2 = (newParent: { [key: string]: string | null }) => {
+    return deck_J2.reduce((acc, monster) => {
+      if (containers_monsters_J2.includes(newParent[monster.id]!)) {
+        return acc + monster.energie;
+      }
+      return acc;
+    }, 0);
+  }
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   function handleDragEnd(event: any) {
     const { active, over } = event;
@@ -133,6 +154,7 @@ export default function Board() {
             const newParent = { ...parent, [active.id]: over.id };
             setParent(newParent);
             setAttack_J1(calculateAttack_J1(newParent));
+            setEnergie_J1(calculateEnergie_J1(newParent));
           }
         }
 
@@ -142,6 +164,7 @@ export default function Board() {
             const newParent = { ...parent, [active.id]: over.id };
             setParent(newParent);
             setAttack_J2(calculateAttack_J2(newParent));
+            setEnergie_J2(calculateEnergie_J2(newParent));
           }
         }
       }
@@ -152,6 +175,8 @@ export default function Board() {
       setParent(newParent);
       setAttack_J1(calculateAttack_J1(newParent));
       setAttack_J2(calculateAttack_J2(newParent));
+      setEnergie_J1(calculateEnergie_J1(newParent));
+      setEnergie_J2(calculateEnergie_J2(newParent));
     }
   }
 
@@ -210,7 +235,7 @@ export default function Board() {
       </div>
       <div className="zoomCard">
         <ZoomCard />
-        <Score attack_J1={attack_J1} attack_J2={attack_J2} shuffleHand={shuffleHand} />
+        <Score attack_J1={attack_J1} attack_J2={attack_J2} energie_J1={energie_J1} energie_J2={energie_J2} shuffleHand={shuffleHand} />
       </div>
     </div>
   );

@@ -4,7 +4,7 @@ import { setDeckJ1, setDeckJ2 } from '../Store/decksSlice';
 import { allCards } from './Cards';
 
 // Fonction de mélange aléatoire
-function shuffleArray(array: {cardId: string; title: string; attack: number;}[]) {
+function shuffleArray(array: {cardId: string; title: string; attack: number; energie: number}[]) {
     for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [array[i], array[j]] = [array[j], array[i]];
@@ -22,7 +22,8 @@ const DecksInitializer = () => {
       id: `draggable_monster_J1_${card.cardId}`,
       cardId: card.cardId,
       title: card.title,
-      attack: card.attack
+      attack: card.attack,
+      energie: card.energie
     }));
 
     const remainingCards = shuffledCards.slice(10);
@@ -30,7 +31,8 @@ const DecksInitializer = () => {
       id: `draggable_monster_J2_${card.cardId}`,
       cardId: card.cardId,
       title: card.title,
-      attack: card.attack
+      attack: card.attack,
+      energie: card.energie
     }));
 
     console.log(deck_J1);
