@@ -1,5 +1,3 @@
-import { useState } from 'react'
-
 interface ScoreProps {
   attack_J1: number;
   attack_J2: number;
