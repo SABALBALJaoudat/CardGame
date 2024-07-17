@@ -29,7 +29,8 @@ export default function Deck() {
             id: `draggable_monster_J1_${card.cardId}`,
             cardId: card.cardId,
             title: card.title,
-            attack: card.attack
+            attack: card.attack,
+            energie: card.energie
           }
         ]);
       } else {
@@ -49,7 +50,8 @@ export default function Deck() {
             id: `draggable_monster_J2_${card.cardId}`,
             cardId: card.cardId,
             title: card.title,
-            attack: card.attack
+            attack: card.attack,
+            energie: card.energie
           }
         ]);
       } else {

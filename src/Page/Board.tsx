@@ -6,24 +6,26 @@ import { ZoomCard } from '../Component/ZoomCard';
 import Score from "../Component/Score";
 import { RootState } from '../Store/store';
 import { useSelector } from 'react-redux';
-// import { deck_J1 as initialDeck_J1, deck_J2 as initialDeck_J2 } from '../Data/DecksInitializer';
 
 export default function Board() {
 
-  //Plateau de jeu
+  // Plateaux de jeu
   const containers_monsters_J1 = ['zone_monsters_J1_1', 'zone_monsters_J1_2', 'zone_monsters_J1_3'];
   const containers_monsters_J2 = ['zone_monsters_J2_1', 'zone_monsters_J2_2', 'zone_monsters_J2_3'];
 
-
   // Initialisation des états pour les mains et les decks
-  // const [deck_J1] = useState(initialDeck_J1);
-  // const [deck_J2] = useState(initialDeck_J2);
   const deck_J1: Card[] = useSelector((state: RootState) => state.decks.deck_J1);
   const deck_J2: Card[] = useSelector((state: RootState) => state.decks.deck_J2);
   const [hand_J1, setHand_J1] = useState(deck_J1.slice(0, 3));
   const [hand_J2, setHand_J2] = useState(deck_J2.slice(0, 3));
   const [attack_J1, setAttack_J1] = useState(0);
   const [attack_J2, setAttack_J2] = useState(0);
+  const [lifePoint_J1, setLifePoint_J1] = useState(100);
+  const [lifePoint_J2, setLifePoint_J2] = useState(100);
+  const [energie_J1, setEnergie_J1] = useState(7); // Initial energy
+  const [energie_J2, setEnergie_J2] = useState(7); // Initial energy
+  const [energie_temp_J1, setEnergie_temp_J1] = useState(7); // Initial energy
+  const [energie_temp_J2, setEnergie_temp_J2] = useState(7); // Initial energy
   const [parent, setParent] = useState<{ [key: string]: string | null }>({
     ...deck_J2.reduce((acc, monster) => {
       acc[monster.id] = null;
@@ -53,7 +55,6 @@ export default function Board() {
       }, {} as { [key: string]: string | null })
     });
   }, [deck_J1, deck_J2]);
-
 
   const shuffleHand = () => {
     // Filter out the cards that are already in hand_J1 or in the droppable area
@@ -117,6 +118,26 @@ export default function Board() {
     }, 0);
   };
 
+  // Calculate energy player 1
+  const calculateEnergie_J1 = (newParent: { [key: string]: string | null }) => {
+    return deck_J1.reduce((acc, monster) => {
+      if (containers_monsters_J1.includes(newParent[monster.id]!)) {
+        return acc + monster.energie;
+      }
+      return acc;
+    }, 0);
+  }
+
+  // Calculate energy player 2
+  const calculateEnergie_J2 = (newParent: { [key: string]: string | null }) => {
+    return deck_J2.reduce((acc, monster) => {
+      if (containers_monsters_J2.includes(newParent[monster.id]!)) {
+        return acc + monster.energie;
+      }
+      return acc;
+    }, 0);
+  }
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   function handleDragEnd(event: any) {
     const { active, over } = event;
@@ -129,19 +150,21 @@ export default function Board() {
 
         // Check if the active element is a monster and the containers have the same id has containers_monsters
         if (active.id.startsWith('draggable_monster_J1')) {
-          if (containers_monsters_J1.includes(over.id)) {
+          if (containers_monsters_J1.includes(over.id) && energie_J1 >= 1) {
             const newParent = { ...parent, [active.id]: over.id };
             setParent(newParent);
             setAttack_J1(calculateAttack_J1(newParent));
+            setEnergie_temp_J1(energie_J1 - calculateEnergie_J1(newParent));
           }
         }
 
         // Check if the active element is a spell and the containers have the same id has containers_spells
         if (active.id.startsWith('draggable_monster_J2')) {
-          if (containers_monsters_J2.includes(over.id)) {
+          if (containers_monsters_J2.includes(over.id) && energie_J2 >= 1) {
             const newParent = { ...parent, [active.id]: over.id };
             setParent(newParent);
             setAttack_J2(calculateAttack_J2(newParent));
+            setEnergie_temp_J2(energie_J2 - calculateEnergie_J2(newParent));
           }
         }
       }
@@ -152,13 +175,31 @@ export default function Board() {
       setParent(newParent);
       setAttack_J1(calculateAttack_J1(newParent));
       setAttack_J2(calculateAttack_J2(newParent));
+      setEnergie_temp_J1(energie_J1 - calculateEnergie_J1(newParent));
+      setEnergie_temp_J2(energie_J2 - calculateEnergie_J2(newParent));
     }
   }
 
+  const calculFight = () => {
+    if (attack_J1 > attack_J2) {
+      const damage = attack_J1 - attack_J2;
+      setLifePoint_J2(lifePoint_J2 - damage);
+    } else if (attack_J1 < attack_J2) {
+      const damage = attack_J2 - attack_J1;
+      setLifePoint_J1(lifePoint_J1 - damage);
+    }
+    setEnergie_J1(energie_temp_J1 + 7);
+    setEnergie_J2(energie_temp_J2 + 7);
+    shuffleHand();
+  };
+
   useEffect(() => {
-    setAttack_J1(calculateAttack_J1(parent));
-    setAttack_J2(calculateAttack_J2(parent));
-  }, [parent]);
+    setEnergie_temp_J1(energie_J1)
+  }, [energie_J1])
+
+  useEffect(() => {
+    setEnergie_temp_J2(energie_J2)
+  }, [energie_J2])
 
   return (
     <div className="main_content">
@@ -210,7 +251,7 @@ export default function Board() {
       </div>
       <div className="zoomCard">
         <ZoomCard />
-        <Score attack_J1={attack_J1} attack_J2={attack_J2} shuffleHand={shuffleHand} />
+        <Score attack_J1={attack_J1} attack_J2={attack_J2} energie_J1={energie_temp_J1} energie_J2={energie_temp_J2} lifePoint_J1={lifePoint_J1} lifePoint_J2={lifePoint_J2} calculFight={calculFight} />
       </div>
     </div>
   );
