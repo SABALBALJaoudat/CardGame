@@ -11,8 +11,8 @@ To do List :
 
 - [x] Page d'acceuil
 - [x] Systeme de "collection"
-- [ ] Systeme de création de deck
+- [x] Systeme de création de deck
 - [x] Systeme d'énergie
 - [ ] Rajout d'image et d'information pour les cartes
-- [ ] Effet 3D quand on drag une carte
+- [x] Effet 3D quand on drag une carte
 - [ ] Création d'un "cimetiere" pour piocher des cartes pas encore jouer
