@@ -28,37 +28,28 @@ export function Draggable({ monster }: DraggableProps) {
     padding: '10px',
     backgroundColor: 'black',
     color: 'white',
+    boxShadow: isDragging ? '0 20px 10px rgba(0, 0, 0, 0.5)' : 'none',
     transition: 'transform 0.2s ease',
+    width: '120px',
+    textAlign: 'center' as const,
   };
 
   const handleMouseMove = (e: { clientX: number; clientY: number; }) => {
     const deltaX = e.clientX - prevMousePos.x;
     const deltaY = e.clientY - prevMousePos.y;
-
-    setRotation((prevRotation) => ({
-      x: prevRotation.x + deltaY * 0.1,
-      y: prevRotation.y + deltaX * 0.1,
-    }));
-
+  
+    // Limit rotation to 40 degrees
+    const newRotationX = Math.min(40, Math.max(-40, rotation.x + deltaY * 0.1));
+    const newRotationY = Math.min(40, Math.max(-40, rotation.y + deltaX * 0.1));
+  
+    setRotation({ x: newRotationX, y: newRotationY });
+  
     setPrevMousePos({ x: e.clientX, y: e.clientY });
-  };
+  };  
 
   const handleMouseLeave = () => {
     setRotation({ x: 0, y: 0 });
   };
-
-  // useEffect(() => {
-  //   const handleDragStart = () => setIsDraggingNow(true);
-  //   const handleDragEnd = () => setIsDraggingNow(false);
-
-  //   window.addEventListener('dragstart', handleDragStart);
-  //   window.addEventListener('dragend', handleDragEnd);
-
-  //   return () => {
-  //     window.removeEventListener('dragstart', handleDragStart);
-  //     window.removeEventListener('dragend', handleDragEnd);
-  //   };
-  // }, []);
 
   const handleMouseEnter = (e: { clientX: any; clientY: any; }) => {
     setPrevMousePos({ x: e.clientX, y: e.clientY });
