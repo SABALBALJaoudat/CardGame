@@ -202,9 +202,10 @@ export default function Board() {
   }, [energie_J2])
 
   return (
+    <>
+    <a href="/">Acceuil</a>
     <div className="main_content">
       <div className="board">
-        <a href="/">Acceuil</a>
         <DndContext onDragEnd={handleDragEnd}>
           <div className="hand">
             {hand_J1.map((monster) =>
@@ -254,5 +255,6 @@ export default function Board() {
         <Score attack_J1={attack_J1} attack_J2={attack_J2} energie_J1={energie_temp_J1} energie_J2={energie_temp_J2} lifePoint_J1={lifePoint_J1} lifePoint_J2={lifePoint_J2} calculFight={calculFight} />
       </div>
     </div>
+    </>
   );
 }
