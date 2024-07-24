@@ -2,7 +2,7 @@
 export default function Acceuil() {
   return (
     <div className="home">
-      <div>Acceuil</div>
+      <h1>Acceuil</h1>
       <div className="selectButton">
         <a href="/game">Play</a>
         <a href="/collection">Collection</a>

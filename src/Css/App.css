@@ -3,6 +3,14 @@
   height: 100vh;
   background: linear-gradient(90deg, #c3dbec 0%, #2c3e50 100%) 0% 0% / 400% 400%;
   animation: 15s ease 0s infinite normal none running gradient;
+  font-family: "Englebert", cursive;
+  font-weight: 400;
+  font-style: normal;
+}
+
+h1{
+  font-size: 3.2em;
+  line-height: 1.1;
 }
 
 .home {
