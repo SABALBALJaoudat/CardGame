@@ -203,9 +203,9 @@ export default function Board() {
 
   return (
     <>
-    <a href="/">Acceuil</a>
     <div className="main_content">
       <div className="board">
+      <a href="/">Acceuil</a>
         <DndContext onDragEnd={handleDragEnd}>
           <div className="hand">
             {hand_J1.map((monster) =>
