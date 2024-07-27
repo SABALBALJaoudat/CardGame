@@ -30,28 +30,29 @@ export function Draggable({ monster }: DraggableProps) {
     color: 'white',
     boxShadow: isDragging ? '0 20px 10px rgba(0, 0, 0, 0.5)' : 'none',
     transition: 'transform 0.2s ease',
-    width: '120px',
+    width: '100px',
+    aspectRatio: '6 / 8',
     textAlign: 'center' as const,
   };
 
   const handleMouseMove = (e: { clientX: number; clientY: number; }) => {
     const deltaX = e.clientX - prevMousePos.x;
     const deltaY = e.clientY - prevMousePos.y;
-  
+
     // Limit rotation to 40 degrees
     const newRotationX = Math.min(40, Math.max(-40, rotation.x + deltaY * 0.1));
     const newRotationY = Math.min(40, Math.max(-40, rotation.y + deltaX * 0.1));
-  
+
     setRotation({ x: newRotationX, y: newRotationY });
-  
+
     setPrevMousePos({ x: e.clientX, y: e.clientY });
-  };  
+  };
 
   const handleMouseLeave = () => {
     setRotation({ x: 0, y: 0 });
   };
 
-  const handleMouseEnter = (e: { clientX: any; clientY: any; }) => {
+  const handleMouseEnter = (e: React.MouseEvent<HTMLDivElement>) => {
     setPrevMousePos({ x: e.clientX, y: e.clientY });
     dispatch(setHoveredCardInfo(monster));
   };

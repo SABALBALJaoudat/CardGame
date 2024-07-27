@@ -203,58 +203,57 @@ export default function Board() {
 
   return (
     <>
-    <div className="main_content">
-      <div className="board">
-      <a href="/">Acceuil</a>
-        <DndContext onDragEnd={handleDragEnd}>
-          <div className="hand">
-            {hand_J1.map((monster) =>
-              parent[monster.id] === null ? (
-                <Draggable key={monster.id} monster={monster} />
-              ) : null
-            )}
-          </div>
-          <div className="field">
-            <div className="line">
-              {containers_monsters_J1.map((id) => (
-                <Droppable key={id} id={id}>
-                  {deck_J1.map((monster) =>
-                    parent[monster.id] === id ? (
-                      <Draggable key={monster.id} monster={monster} />
-                    ) : null
-                  )}
-                  {deck_J1.every((monster) => parent[monster.id] !== id) && 'Monster field Player 1'}
-                </Droppable>
-              ))}
+      <div className="main_content">
+        <div className="board">
+          <a href="/">Acceuil</a>
+          <DndContext onDragEnd={handleDragEnd}>
+            <div className="hand">
+              {hand_J1.map((monster) =>
+                parent[monster.id] === null ? (
+                  <Draggable key={monster.id} monster={monster} />
+                ) : null
+              )}
             </div>
-            <button onClick={shuffleHand}>Mélange</button>
-            <div className="line">
-              {containers_monsters_J2.map((id) => (
-                <Droppable key={id} id={id}>
-                  {deck_J2.map((monster) =>
-                    parent[monster.id] === id ? (
-                      <Draggable key={monster.id} monster={monster} />
-                    ) : null
-                  )}
-                  {deck_J2.every((monster) => parent[monster.id] !== id) && 'Monster field Player 2'}
-                </Droppable>
-              ))}
+            <div className="field">
+              <div className="line">
+                {containers_monsters_J1.map((id) => (
+                  <Droppable key={id} id={id}>
+                    {deck_J1.map((monster) =>
+                      parent[monster.id] === id ? (
+                        <Draggable key={monster.id} monster={monster} />
+                      ) : null
+                    )}
+                    {deck_J1.every((monster) => parent[monster.id] !== id) && 'Monster field Player 1'}
+                  </Droppable>
+                ))}
+              </div>
+              <div className="line">
+                {containers_monsters_J2.map((id) => (
+                  <Droppable key={id} id={id}>
+                    {deck_J2.map((monster) =>
+                      parent[monster.id] === id ? (
+                        <Draggable key={monster.id} monster={monster} />
+                      ) : null
+                    )}
+                    {deck_J2.every((monster) => parent[monster.id] !== id) && 'Monster field Player 2'}
+                  </Droppable>
+                ))}
+              </div>
             </div>
-          </div>
-          <div className="hand">
-            {hand_J2.map((monster) =>
-              parent[monster.id] === null ? (
-                <Draggable key={monster.id} monster={monster} />
-              ) : null
-            )}
-          </div>
-        </DndContext>
+            <div className="hand">
+              {hand_J2.map((monster) =>
+                parent[monster.id] === null ? (
+                  <Draggable key={monster.id} monster={monster} />
+                ) : null
+              )}
+            </div>
+          </DndContext>
+        </div>
+        <div className="zoomCard">
+          <ZoomCard />
+          <Score attack_J1={attack_J1} attack_J2={attack_J2} energie_J1={energie_temp_J1} energie_J2={energie_temp_J2} lifePoint_J1={lifePoint_J1} lifePoint_J2={lifePoint_J2} calculFight={calculFight} />
+        </div>
       </div>
-      <div className="zoomCard">
-        <ZoomCard />
-        <Score attack_J1={attack_J1} attack_J2={attack_J2} energie_J1={energie_temp_J1} energie_J2={energie_temp_J2} lifePoint_J1={lifePoint_J1} lifePoint_J2={lifePoint_J2} calculFight={calculFight} />
-      </div>
-    </div>
     </>
   );
 }
