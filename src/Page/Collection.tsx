@@ -1,4 +1,4 @@
-import "../Css/Collection.css";
+import "../Css/Collection.scss";
 import { allCards } from "../Data/Cards"
 
 export default function Collection() {

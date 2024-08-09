@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import "../Css/Collection.css";
+import "../Css/Collection.scss";
 import { allCards } from "../Data/Cards";
 import { RootState } from "../Store/store";
 import { setDeckJ1, setDeckJ2 } from "../Store/decksSlice";

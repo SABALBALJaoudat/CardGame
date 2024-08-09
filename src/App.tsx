@@ -1,4 +1,4 @@
-import "./Css/App.css";
+import "./Css/App.scss";
 import { Routes, Route, BrowserRouter as Router } from 'react-router-dom';
 import Acceuil from './Page/Acceuil';
 import Game from './Page/Board';
