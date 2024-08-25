@@ -1,7 +1,7 @@
 import { useDraggable } from '@dnd-kit/core';
 import { useDispatch } from 'react-redux';
 import { setHoveredCardInfo } from '../Store/draggableSlice';
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 
 interface DraggableProps {
   monster: Monster;
@@ -15,6 +15,9 @@ export function Draggable({ monster }: DraggableProps) {
   const [prevMousePos, setPrevMousePos] = useState({ x: 0, y: 0 });
 
   const dispatch = useDispatch();
+  const isDraggingNow = useRef(false);
+  const lastMoveTimestamp = useRef<number | null>(null);
+  const resetInterval = useRef<number | null>(null);
 
   const containerStyle = {
     transform: transform ? `translate3d(${transform.x}px, ${transform.y}px, 0) rotateY(${rotation.y}deg) rotateX(${rotation.x}deg)` : '',
@@ -39,26 +42,79 @@ export function Draggable({ monster }: DraggableProps) {
     const deltaX = e.clientX - prevMousePos.x;
     const deltaY = e.clientY - prevMousePos.y;
 
-    // Limit rotation to 40 degrees
     const newRotationX = Math.min(20, Math.max(-20, rotation.x + deltaY * 0.1));
     const newRotationY = Math.min(30, Math.max(-30, rotation.y + deltaX * 0.1));
-  
-    setRotation({ x: rotation.x, y: newRotationY });
-  
+
+    setRotation({ x: newRotationX, y: newRotationY });
     setPrevMousePos({ x: e.clientX, y: e.clientY });
+    isDraggingNow.current = true;
+    lastMoveTimestamp.current = Date.now();
+
+    if (resetInterval.current) {
+      clearInterval(resetInterval.current);
+      resetInterval.current = null;
+    }
   };
 
   const handleMouseLeave = () => {
     setRotation({ x: 0, y: 0 });
   };
 
-  const handleMouseEnter = (e: { clientX: any; clientY: any; }) => {
-    // setPrevMousePos({ x: e.clientX, y: e.clientY });
+  const handleMouseEnter = () => {
     dispatch(setHoveredCardInfo(monster));
   };
 
+  const handleMouseUp = () => {
+    isDraggingNow.current = false;
+  };
+
+  useEffect(() => {
+    // Fonction appelée à chaque intervalle pour réinitialiser la rotation
+    const resetRotation = () => {
+      if (isDraggingNow.current) {
+        // Calcule le temps écoulé depuis le dernier mouvement de la souris
+        const timeSinceLastMove = Date.now() - (lastMoveTimestamp.current || 0);
+
+        // Si plus de 500ms se sont écoulées sans mouvement
+        if (timeSinceLastMove > 500) {
+          // Réduit progressivement la rotation vers zéro
+          setRotation(prev => ({
+            x: prev.x * 0.8, // Réduction plus rapide pour ramener la rotation vers zéro
+            y: prev.y * 0.8,
+          }));
+
+          // Vérifie si la rotation est proche de zéro pour arrêter le reset
+          if (Math.abs(rotation.x) < 0.5 && Math.abs(rotation.y) < 0.5) {
+            // Réinitialise la rotation à zéro
+            setRotation({ x: 0, y: 0 });
+            // Arrête l'intervalle une fois la rotation réinitialisée
+            clearInterval(resetInterval.current!);
+          }
+        }
+      }
+    };
+
+    // Crée un intervalle qui appelle resetRotation toutes les 50ms
+    resetInterval.current = window.setInterval(resetRotation, 50);
+
+    // Nettoyage de l'intervalle lors du démontage du composant ou lors de la mise à jour de l'effet
+    return () => {
+      clearInterval(resetInterval.current!);
+    };
+  }, [rotation]); // Dépendance sur rotation pour que l'effet réagisse aux changements de rotation
+
+
   return (
-    <div ref={setNodeRef} style={containerStyle} {...listeners} {...attributes} onMouseEnter={handleMouseEnter} onMouseMove={handleMouseMove} onMouseLeave={handleMouseLeave}>
+    <div
+      ref={setNodeRef}
+      style={containerStyle}
+      {...listeners}
+      {...attributes}
+      onMouseEnter={handleMouseEnter}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      onMouseUp={handleMouseUp}
+    >
       <div style={innerStyle}>
         {monster.title}
       </div>
