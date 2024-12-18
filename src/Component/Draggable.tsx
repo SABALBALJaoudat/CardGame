@@ -31,7 +31,7 @@ export function Draggable({ monster }: DraggableProps) {
     padding: '10px',
     backgroundColor: 'black',
     color: 'white',
-    boxShadow: isDragging ? '0 20px 10px rgba(0, 0, 0, 0.5)' : 'none',
+    boxShadow: isDragging ? '0 20px 10px rgba(0, 0, 0, 0.75)' : 'rgba(50, 50, 93, 0.5) 0px 50px 100px -20px, rgba(0, 0, 0, 0.5) 0px 30px 60px -30px, rgba(10, 37, 64, 0.5) 0px -2px 6px 0px inset',
     transition: 'transform 0.2s ease',
     width: '100px',
     aspectRatio: '6 / 8',
