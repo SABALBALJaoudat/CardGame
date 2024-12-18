@@ -13,11 +13,11 @@ export function Droppable({ id, children }: DroppableProps) {
 
   const style = {
     backgroundColor: isOver ? 'lightgreen' : 'white',
-    padding: '10px',
     border: '1px solid black',
-    margin: '10px',
     width: '140px',
-    height: '200px',
+    height: '180px',
+    // padding: '10px',
+    margin: '10px',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
