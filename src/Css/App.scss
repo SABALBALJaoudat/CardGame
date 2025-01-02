@@ -112,6 +112,21 @@ h1{
   }
 }
 
+
+.score{
+  width: 100%;
+}
+.playersInformations {
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+}
+.playerInformation{
+  padding: 10px 20px;
+  background: antiquewhite;
+  border-radius: 10px;
+}
+
 @keyframes gradient {
   0% {
       background-position: 0% 50%;

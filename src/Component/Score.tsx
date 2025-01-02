@@ -12,20 +12,22 @@ export default function Score({ attack_J1, attack_J2, energie_J1, energie_J2, li
 
   return (
     <div className="score">
-      <div className="playerIcon">
-        <p>Player 1</p>
+      <div className="playersInformations">
         <div className="playerInformation">
-          <p>Life: {lifePoint_J1}</p>
-          <p>Attack: {attack_J1}</p>
-          <p>Energie: {energie_J1}</p>
+          <p>Player 1</p>
+          <div className="playerStats">
+            <p>Life: {lifePoint_J1}</p>
+            <p>Attack: {attack_J1}</p>
+            <p>Energie: {energie_J1}</p>
+          </div>
         </div>
-      </div>
-      <div className="playerIcon">
-        <p>Player 2</p>
         <div className="playerInformation">
-          <p>Life: {lifePoint_J2}</p>
-          <p>Attack: {attack_J2}</p>
-          <p>Energie: {energie_J2}</p>
+          <p>Player 2</p>
+          <div className="playerStats">
+            <p>Life: {lifePoint_J2}</p>
+            <p>Attack: {attack_J2}</p>
+            <p>Energie: {energie_J2}</p>
+          </div>
         </div>
       </div>
       <button onClick={calculFight} style={{ background: 'grey' }}>Attack</button>
