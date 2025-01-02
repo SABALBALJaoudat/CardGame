@@ -21,8 +21,8 @@ export default function Deck() {
   const handleCardClick_J1 = (cardId: string) => {
     const card = allCards.find(card => card.cardId === cardId);
     if (card) {
-      const isCardInDeck = tempDeck_J1.some(deckCard => deckCard.cardId === card.cardId);
-      if (!isCardInDeck) {
+      const isCardInTempDeck = tempDeck_J1.some(deckCard => deckCard.cardId === card.cardId);
+      if (!isCardInTempDeck) {
         setTempDeck_J1([
           ...tempDeck_J1,
           {
@@ -42,8 +42,8 @@ export default function Deck() {
   const handleCardClick_J2 = (cardId: string) => {
     const card = allCards.find(card => card.cardId === cardId);
     if (card) {
-      const isCardInDeck = tempDeck_J2.some(deckCard => deckCard.cardId === card.cardId);
-      if (!isCardInDeck) {
+      const isCardInTempDeck = tempDeck_J2.some(deckCard => deckCard.cardId === card.cardId);
+      if (!isCardInTempDeck) {
         setTempDeck_J2([
           ...tempDeck_J2,
           {
@@ -75,44 +75,20 @@ export default function Deck() {
     <>
       <div>Deck</div>
       <a href="/">Accueil</a>
-      <div className="content">
-        {allCards.map(card => {
-          const isCardInDeck = tempDeck_J1.some(deckCard => deckCard.cardId === card.cardId);
-          return (
-            <div
-              key={card.cardId}
-              onClick={() => handleCardClick_J1(card.cardId)}
-              style={{ backgroundColor: isCardInDeck ? 'lightgreen' : 'white' }}
-            >
-              id: {card.cardId}<br />
-              content: {card.title}<br />
-              attack: {card.attack}<br />
-            </div>
-          );
-        })}
-      </div>
       <div className="deck">
-        <div className="deck_J1">
-          <h2>Deck Joueur 1</h2>
-          {deck_J1.map((card: Card) =>
-            <div key={card.id} className='card'>
-              <div className='title'>
-                id : {card.id}<br />
-                cardId : {card.cardId}<br />
-                content : {card.title}<br />
-                attack : {card.attack}<br />
-              </div>
-            </div>
-          )}
-        </div>
+        <h2>Deck Joueur 1</h2>
         <div className="content">
           {allCards.map(card => {
-            const isCardInDeck = tempDeck_J2.some(deckCard => deckCard.cardId === card.cardId);
+            const isCardInTempDeck = tempDeck_J1.some(deckCard => deckCard.cardId === card.cardId);
+            const isCardInDeck = deck_J1.some(deckCard => deckCard.cardId === card.cardId);
+            const isCardNotInTempDeck = !isCardInTempDeck;
+            const backgroundColor = isCardNotInTempDeck ? 'white' : isCardInDeck ? 'lightgreen' : isCardInTempDeck ? 'lightblue' : 'white';
             return (
               <div
+                className="card_selection"
                 key={card.cardId}
-                onClick={() => handleCardClick_J2(card.cardId)}
-                style={{ backgroundColor: isCardInDeck ? 'lightgreen' : 'white' }}
+                onClick={() => handleCardClick_J1(card.cardId)}
+                style={{ backgroundColor }}
               >
                 id: {card.cardId}<br />
                 content: {card.title}<br />
@@ -121,21 +97,31 @@ export default function Deck() {
             );
           })}
         </div>
-        <div className="deck_J2">
-          <h2>Deck Joueur 2</h2>
-          {deck_J2.map((card: Card) =>
-            <div key={card.id} className='card'>
-              <div className='title'>
-                id : {card.id}<br />
-                cardId : {card.cardId}<br />
-                content : {card.title}<br />
-                attack : {card.attack}<br />
-              </div>
-            </div>
-          )}
-        </div>
-        <button onClick={handleConfirm}>Confirm</button>
       </div>
+      <div className="deck">
+        <h2>Deck Joueur 2</h2>
+        <div className="content">
+          {allCards.map(card => {
+            const isCardInTempDeck = tempDeck_J2.some(deckCard => deckCard.cardId === card.cardId);
+            const isCardInDeck = deck_J2.some(deckCard => deckCard.cardId === card.cardId);
+            const isCardNotInTempDeck = !isCardInTempDeck;
+            const backgroundColor = isCardNotInTempDeck ? 'white' : isCardInDeck ? 'lightgreen' : isCardInTempDeck ? 'lightblue' : 'white';
+            return (
+              <div
+                className="card_selection"
+                key={card.cardId}
+                onClick={() => handleCardClick_J2(card.cardId)}
+                style={{ backgroundColor }}
+              >
+                id: {card.cardId}<br />
+                content: {card.title}<br />
+                attack: {card.attack}<br />
+              </div>
+            );
+          })}
+        </div>
+      </div>
+      <button onClick={handleConfirm}>Confirm</button>
     </>
   )
 }

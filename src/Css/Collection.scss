@@ -3,6 +3,17 @@
     flex-wrap: wrap;
     gap: 20px;
     justify-content: center;
+    align-content: flex-start;
+
+    .card_selection:hover {
+        cursor: pointer;
+    }
+
+    .card_selection {
+        width: fit-content; 
+        height: fit-content;
+        padding: 10px;
+    }
 
     .card_detailed {
         position: relative;
