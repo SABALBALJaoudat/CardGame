@@ -19,6 +19,9 @@ export class Card {
   @Column()
   hp: number;
 
+  @Column({ nullable: true })
+  image: string;
+
   @ManyToOne(() => Family, (family) => family.cards)
   family: Family;
 

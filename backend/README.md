@@ -97,3 +97,21 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 ## License
 
 Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+
+## BDD PostgreSql
+
+service postgresql start (or restart)
+psql -U postgres
+
+Inside psql, multiple command :
+  - \l : display a list of available databases
+  - \c database_name : connect to database_name
+  - \dt : look if tables are created
+
+## Migration TypeORM
+
+Generate a migration with TypeORM :
+npm run typeorm migration:generate -- src/migrations/name_modification
+
+Run a migration :
+npm run typeorm:migration:run

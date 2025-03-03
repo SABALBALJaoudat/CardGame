@@ -13,16 +13,26 @@ import { DatabaseModule } from './database/database.module';
 
 @Module({
   imports: [
+    // TypeOrmModule.forRoot({
+    //   type: 'postgres',
+    //   url: process.env.DATABASE_URL,
+    //   autoLoadEntities: true,
+    //   synchronize: true, // Désactivez en production !
+    //   extra: {
+    //     ssl: {
+    //       rejectUnauthorized: false, // Désactive la vérification du certificat pour Render
+    //     },
+    //   },
+    // }),
     TypeOrmModule.forRoot({
       type: 'postgres',
-      url: process.env.DATABASE_URL,
+      host: 'localhost',
+      port: 5432,
+      username: 'postgres',
+      password: 'postgres',
+      database: 'cardgame_goodboybattle',
       autoLoadEntities: true,
-      synchronize: true, // Désactivez en production !
-      extra: {
-        ssl: {
-          rejectUnauthorized: false, // Désactive la vérification du certificat pour Render
-        },
-      },
+      synchronize: false, // Attention : à utiliser uniquement en développement
     }),
     TypeOrmModule.forFeature([User, Statistics, Card, Family, Deck, Booster]),
     ConfigModule.forRoot({
